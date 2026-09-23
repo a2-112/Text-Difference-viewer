@@ -54,7 +54,7 @@ textarea::placeholder {
 }
 
 /* Compare button */
-#compare {
+#compare,#show,#clear,.delete {
   display: block;
   margin: 24px auto 0;
   padding: 11px 28px;
@@ -72,7 +72,18 @@ textarea::placeholder {
   transition: 0.2s ease;
 }
 
-#compare:hover {
+.show-info{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#show,#clear, .delete{
+  display: inline-flex;
+  margin: 10px auto ;
+  padding: 10px ;
+}
+
+#compare:hover, #show:hover, #clear:hover {
   background: rgba(94, 234, 212, 0.15);
   border-color: #5eead4;
   transform: translateY(-2px);
@@ -120,7 +131,22 @@ span {
   padding: 2px 3px;
   border-radius: 4px;
 }
-
+#all{
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+.card{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content{
+  line-height: 1.8;
+}
+[hidden] {
+  display: none !important;
+}
 /* Mobile */
 @media (max-width: 650px) {
   body {
