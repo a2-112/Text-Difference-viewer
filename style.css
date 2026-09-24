@@ -217,4 +217,9 @@ span {
   .text p {
     overflow-wrap: anywhere;
   }
+  .show-info div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
