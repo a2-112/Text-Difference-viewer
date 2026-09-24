@@ -203,6 +203,10 @@ span {
     font-size: 0.75rem;
     padding: 8px 10px;
   }
+  #show,
+  #clear{
+    font-size: 0.55rem;
+  }
   span {
     font-weight: 600;
     font-size: 0.9rem;
@@ -221,5 +225,6 @@ span {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap:5px
   }
 }
