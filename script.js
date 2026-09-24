@@ -15,10 +15,13 @@ let value2 = "";
 //Store Sequence
 let sequence = {};
 
+//Get data from Local Storage and display
 const storage = () => {
   return JSON.parse(localStorage.getItem("result")) || [];
 };
-const renderHistory = (str1, str2, percent, match, date) => {
+// The save the sum result after the compare btn has been clicked 
+// And add to Local Storage
+const saveHistory = (str1, str2, percent, match, date) => {
   const output = {
     id: crypto.randomUUID(),
     text1: str1,
@@ -31,7 +34,7 @@ const renderHistory = (str1, str2, percent, match, date) => {
     !output.text1 ||
     !output.text2 ||
     output.similarity === undefined||
-    !output.matchedText ||
+    output.matchedText === undefined ||
     !output.date
   )
     return;
@@ -111,8 +114,9 @@ const highlight = (str, matches, i) => {
   // return the format and rerun again
   return output + highlight(str, matches, i + 1);
 };
-
+// this function provides us with the percentage of both match text
 const percentage = (str1, str2, lcs) => {
+  // used to get the longest text
   const longest = Math.max(str1.length, str2.length);
   const percent = Math.floor((lcs.length / longest) * 100);
   return percent;
@@ -127,7 +131,7 @@ const display = (str1, str2, result, percent) => {
   <p><span>Matched Text: </span>${result}</p> 
   <p>${percent}%</p>`;
 };
-
+// this collect data from local storage and display in HTML
 const displayHistory = () => {
   const items = storage();
   const all = items.map((item) => {
@@ -150,7 +154,7 @@ const displayHistory = () => {
   }).join("");
   history.innerHTML = all
 }
-
+// Used to delete history of compared text 
 const deleteFunction = (id) => {
   const memory = storage()
   const remove = memory.filter(item => item.id !== id)
@@ -169,7 +173,7 @@ firstCon.addEventListener("input", () => {
 secondCon.addEventListener("input", () => {
   value2 = secondCon.value.toLowerCase();
 }); 
-
+// access the delete btn and uses the id to figure out value and delete
 history.addEventListener("click", (e) => {
   if(e.target.closest(".delete")){
   const card = e.target.closest(".card").dataset.id
@@ -177,7 +181,7 @@ history.addEventListener("click", (e) => {
     displayHistory()
   }
 })
-
+// at click show/hide history
 showHistory.addEventListener("click", () => {
    const isHidden= history.toggleAttribute("hidden");
   if(!isHidden){
@@ -187,12 +191,12 @@ showHistory.addEventListener("click", () => {
     showHistory.innerText = "Show History";
   }
 })
-
+// clears all history
 clearHistory.addEventListener("click", () => {
   history.innerHTML = ""
   history.hidden = true
   showHistory.innerText = "Show History";
-  localStorage.clear()
+  localStorage.removeItem("result")
 })
 
 // Compare both texts and display the LCS result
@@ -213,7 +217,7 @@ warning.innerText = "";
   const main2 = highlight(value2, matches2, 0);
   const percent = percentage(chars1, chars2, result);
   const date = new Date();
-  renderHistory(value1, value2, percent, result, date);
+  saveHistory(value1, value2, percent, result, date);
   display(main, main2, result, percent);
 });
 // in the body once there is a new type reset sequence storage
